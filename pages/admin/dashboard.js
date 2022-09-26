@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 // @material-ui/core
@@ -31,6 +31,9 @@ import CardIcon from "components/Card/CardIcon.js";
 import CardBody from "components/Card/CardBody.js";
 import CardFooter from "components/Card/CardFooter.js";
 
+import { useRecoilValue } from "recoil";
+import {authAtom} from '../../state';
+
 import { bugs, website, server } from "variables/general.js";
 
 import {
@@ -38,10 +41,14 @@ import {
   emailsSubscriptionChart,
   completedTasksChart,
 } from "variables/charts.js";
-
+import router from "next/router";
 import styles from "assets/jss/nextjs-material-dashboard/views/dashboardStyle.js";
 
 function Dashboard() {
+  const auth = useRecoilValue(authAtom);
+  useEffect(()=>{
+      if(!auth) router.replace('/admin/login');
+  },[])
   const useStyles = makeStyles(styles);
   const classes = useStyles();
   return (

@@ -33,6 +33,10 @@ class MyDocument extends Document {
             rel="stylesheet"
             href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
           />
+          <link
+            rel="stylesheet"
+            href="//netdna.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+          />
         </Head>
         <body>
           <div id="page-transition"></div>

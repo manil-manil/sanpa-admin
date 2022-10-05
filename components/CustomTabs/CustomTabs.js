@@ -9,9 +9,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 // core components
-import Card from "components/Card/Card.js";
-import CardBody from "components/Card/CardBody.js";
-import CardHeader from "components/Card/CardHeader.js";
+import { Card, CardBody, CardHeader } from "components/Card";
 
 import styles from "assets/jss/nextjs-material-dashboard/components/customTabsStyle.js";
 

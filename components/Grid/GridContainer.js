@@ -12,7 +12,7 @@ const styles = {
   },
 };
 
-export default function GridContainer(props) {
+export function GridContainer(props) {
   const useStyles = makeStyles(styles);
   const classes = useStyles();
   const { children, ...rest } = props;

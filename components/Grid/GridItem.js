@@ -11,7 +11,7 @@ const styles = {
   },
 };
 
-export default function GridItem(props) {
+export function GridItem(props) {
   const useStyles = makeStyles(styles);
   const classes = useStyles();
   const { children, ...rest } = props;

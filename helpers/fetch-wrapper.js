@@ -30,7 +30,7 @@ function useFetchWrapper() {
 
     function authHeader(url) {
         // return auth header with jwt if user is logged in and request is to the api url
-        const token = auth?.token;
+        const token = auth;
         const isLoggedIn = !!token;
         const isApiUrl = url.startsWith(BASIC_CONSTANT.BACKEND_URL);
         if (isLoggedIn && isApiUrl) {
@@ -41,21 +41,39 @@ function useFetchWrapper() {
     }
 
     function handleResponse(response) {
-        return response.text().then(text => {
-            const data = text;
-            if (!response.ok) {
-                if ([401, 403].includes(response.status) && auth?.token) {
-                    // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
-                    localStorage.removeItem(BASIC_CONSTANT.ADMIN_TOKEN);
-                    setAuth(null);
-                    router.replace('/admin/login');
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+            return response.json().then(data => {
+                if (!response.ok) {
+                    if ([401, 403].includes(response.status) && auth) {
+                        // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
+                        localStorage.removeItem(BASIC_CONSTANT.ADMIN_TOKEN);
+                        setAuth(null);
+                        router.replace('/admin/login');
+                    }
+        
+                    const error = (data && data.message) || response.statusText;
+                    return Promise.reject(error);
                 }
-    
-                const error = (data && data.message) || response.statusText;
-                return Promise.reject(error);
-            }
-    
-            return data;
-        });
+                return data;
+            });
+        } else {
+            return response.text().then(text => {
+                const data = text;
+                if (!response.ok) {
+                    if ([401, 403].includes(response.status) && auth) {
+                        // auto logout if 401 Unauthorized or 403 Forbidden response returned from api
+                        localStorage.removeItem(BASIC_CONSTANT.ADMIN_TOKEN);
+                        setAuth(null);
+                        router.replace('/admin/login');
+                    }
+        
+                    const error = (data && data.message) || response.statusText;
+                    return Promise.reject(error);
+                }
+        
+                return data;
+            });
+        }
     }  
 }

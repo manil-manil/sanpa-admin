@@ -11,9 +11,7 @@ import Info from "components/Typography/Info.js";
 import Success from "components/Typography/Success.js";
 import Warning from "components/Typography/Warning.js";
 import Danger from "components/Typography/Danger.js";
-import Card from "components/Card/Card.js";
-import CardHeader from "components/Card/CardHeader.js";
-import CardBody from "components/Card/CardBody.js";
+import { Card, CardHeader, CardBody } from "components/Card";
 
 const styles = {
   typo: {

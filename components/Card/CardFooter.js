@@ -10,7 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 // core components
 import styles from "assets/jss/nextjs-material-dashboard/components/cardFooterStyle.js";
 
-export default function CardFooter(props) {
+export function CardFooter(props) {
   const useStyles = makeStyles(styles);
   const classes = useStyles();
   const { className, children, plain, profile, stats, chart, ...rest } = props;

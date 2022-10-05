@@ -16,8 +16,8 @@ const dashboardRoutes = [
         layout: "/admin",
     },
     {
-        path: "/table-list",
-        name: "Table List",
+        path: "/user-list",
+        name: "회원 목록",
         icon: "content_paste",
         layout: "/admin",
     },

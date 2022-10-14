@@ -76,9 +76,8 @@ function UserList() {
   });
   const handleEditChange = (e) => { //수정모달에서 변경
     const {name, value} = e.target;
-    setInputs({
-        ...inputs,
-        [name]: value
+    setInputs((prevState)=>{
+      return {...prevState, [name]: value}
     });
   }
   const columns = React.useMemo( 

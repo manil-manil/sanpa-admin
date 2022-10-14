@@ -20,6 +20,7 @@ import ReactDOM from "react-dom";
 import App from "next/app";
 import Head from "next/head";
 import Router from "next/router";
+import { RecoilRoot } from "recoil";
 
 import PageChange from "components/PageChange/PageChange.js";
 
@@ -85,11 +86,12 @@ export default class MyApp extends App {
             content="width=device-width, initial-scale=1, shrink-to-fit=no"
           />
           <title>NextJS Material Dashboard by Creative Tim</title>
-          <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY_HERE"></script>
         </Head>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <RecoilRoot>
+          <Layout>
+              <Component {...pageProps} />
+          </Layout>
+        </RecoilRoot>
       </React.Fragment>
     );
   }

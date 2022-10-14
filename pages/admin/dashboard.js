@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 // react plugin for creating charts
 import ChartistGraph from "react-chartist";
 // @material-ui/core
@@ -19,17 +19,15 @@ import Cloud from "@material-ui/icons/Cloud";
 // layout for this page
 import Admin from "layouts/Admin.js";
 // core components
-import GridItem from "components/Grid/GridItem.js";
-import GridContainer from "components/Grid/GridContainer.js";
+import { GridItem, GridContainer } from "components/Grid";
 import Table from "components/Table/Table.js";
 import Tasks from "components/Tasks/Tasks.js";
 import CustomTabs from "components/CustomTabs/CustomTabs.js";
 import Danger from "components/Typography/Danger.js";
-import Card from "components/Card/Card.js";
-import CardHeader from "components/Card/CardHeader.js";
-import CardIcon from "components/Card/CardIcon.js";
-import CardBody from "components/Card/CardBody.js";
-import CardFooter from "components/Card/CardFooter.js";
+import { Card, CardHeader, CardIcon, CardBody, CardFooter } from "components/Card";
+
+import { useRecoilValue } from "recoil";
+import {authAtom} from '../../state';
 
 import { bugs, website, server } from "variables/general.js";
 
@@ -38,10 +36,14 @@ import {
   emailsSubscriptionChart,
   completedTasksChart,
 } from "variables/charts.js";
-
+import router from "next/router";
 import styles from "assets/jss/nextjs-material-dashboard/views/dashboardStyle.js";
 
 function Dashboard() {
+  const auth = useRecoilValue(authAtom);
+  useEffect(()=>{
+      if(!auth) router.replace('/admin/login');
+  },[])
   const useStyles = makeStyles(styles);
   const classes = useStyles();
   return (

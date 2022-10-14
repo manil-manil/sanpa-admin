@@ -10,7 +10,7 @@ import { makeStyles } from "@material-ui/core/styles";
 
 import styles from "assets/jss/nextjs-material-dashboard/components/cardAvatarStyle.js";
 
-export default function CardAvatar(props) {
+export function CardAvatar(props) {
   const useStyles = makeStyles(styles);
   const classes = useStyles();
   const { children, className, plain, profile, ...rest } = props;

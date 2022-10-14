@@ -1,0 +1,57 @@
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-maven
+
+name: 산파 어드민 자동배포
+
+on:
+    push:
+        branches: [develop]
+jobs:
+    build:
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+            - uses: borales/actions-yarn@v3.0.0
+              with:
+                  cmd: install
+            - uses: borales/actions-yarn@v3.0.0
+              with:
+                  cmd: build
+            - name: copy file via ssh password
+              uses: appleboy/scp-action@master
+              with:
+                  host: ${{ secrets.SERVER_HOST }}
+                  username: ${{ secrets.SERVER_USERNAME }}
+                  key: ${{ secrets.SERVER_SSH_KEY }}
+                  port: ${{ secrets.SERVER_PORT }}
+                  source: "*"
+                  target: "~/sanpa-admin"
+            - name: Deploy FastApi MainServer(master)
+              uses: appleboy/ssh-action@master
+              with:
+                  host: ${{ secrets.SERVER_HOST }}
+                  username: ${{ secrets.SERVER_USERNAME }}
+                  key: ${{ secrets.SERVER_SSH_KEY }}
+                  port: ${{ secrets.SERVER_PORT }}
+                  script: |
+                      cd ~/sanpa-admin
+                      docker build -t sanpa-admin-image .
+                      docker stop sanpa-admin
+                      docker rm sanpa-admin --force
+                      docker run -d -p 8888:3000 --name sanpa-admin sanpa-admin-image
+                      docker image prune -f
+            - name: Get Current Time
+              uses: 1466587594/get-current-time@v2
+              id: current-time
+              with:
+                  format: YYYY-MM-DDTHH:mm:ss
+                  utcOffset: "+09:00"
+
+            - name: Print Current Time
+              run: echo "Current Time=${{steps.current-time.outputs.formattedTime}}"
+              shell: bash
+            - name: Notification For slack with web hook
+              run: |
+                  curl -X POST https://hooks.slack.com/services/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 \
+                  -H 'Content-Type: application/json' \
+                  -d '{"text": "개발 어드민 배포됐어요 !"}'

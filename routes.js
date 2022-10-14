@@ -10,20 +10,14 @@ const dashboardRoutes = [
         layout: "/admin",
     },
     {
-        path: "/user-profile",
-        name: "User Profile",
-        icon: Person,
-        layout: "/admin",
-    },
-    {
         path: "/user-list",
         name: "회원 목록",
         icon: "content_paste",
         layout: "/admin",
     },
     {
-        path: "/typography",
-        name: "Typography",
+        path: "/category",
+        name: "카테고리",
         icon: LibraryBooks,
 
         layout: "/admin",

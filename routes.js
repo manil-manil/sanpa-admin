@@ -19,7 +19,6 @@ const dashboardRoutes = [
         path: "/category",
         name: "카테고리",
         icon: LibraryBooks,
-
         layout: "/admin",
     },
 ];

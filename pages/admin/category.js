@@ -6,13 +6,19 @@ import { GridItem, GridContainer } from "components/Grid";
 import DataGridTable from "components/Table/DataGridTable.js";
 import { Card, CardBody } from "components/Card";
 import { GridActionsCellItem } from "@mui/x-data-grid";
-import { Delete as DeleteIcon, Edit as EditIcon } from "@mui/icons-material/";
+import {
+    Delete as DeleteIcon,
+    Edit as EditIcon,
+    Article as ArticleIcon,
+} from "@mui/icons-material/";
 import DialogModal from "components/Dialog/DialogModal.js";
 import CategoryEdit from "components/Category/CategoryEdit";
 import { useFetchWrapper } from "../../helpers";
 import { BASIC_CONSTANT } from "../../variables/basic.constants";
+import { useRouter } from "next/router";
 
 function Category() {
+    const router = useRouter();
     const fetchWrapper = useFetchWrapper();
     const [rows, setRows] = React.useState([]);
     const [isCreate, setIsCreate] = React.useState([]);
@@ -184,6 +190,16 @@ function Category() {
                 headerName: "관리",
                 getActions: (params) => [
                     <GridActionsCellItem
+                        icon={<ArticleIcon />}
+                        onClick={() =>
+                            router.push({
+                                pathname: "/admin/node",
+                                query: { category: params.id },
+                            })
+                        }
+                        label="Delete"
+                    />,
+                    <GridActionsCellItem
                         icon={<EditIcon />}
                         onClick={handleClickOpen(params.id)}
                         label="Edit"
@@ -199,8 +215,6 @@ function Category() {
         ],
         [deleteCategory]
     );
-
-    console.log(rows);
 
     return (
         <GridContainer>
@@ -225,7 +239,7 @@ function Category() {
                 open={open}
                 clickClose={handleClose}
                 clickSave={isCreate ? handleCreate : handleSave}
-                title={"카테고리 수정"}
+                title={`카테고리 ${isCreate ? "추가" : "수정"}`}
             >
                 <CategoryEdit inputs={inputs} onChange={handleEditChange} />
             </DialogModal>
